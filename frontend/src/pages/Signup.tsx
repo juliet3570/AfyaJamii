@@ -86,21 +86,23 @@ const Signup = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary/5 via-background to-secondary/10 p-4">
-      <Card className="w-full max-w-md">
-        <CardHeader className="space-y-4 text-center">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-100 via-blue-50 to-purple-100 dark:from-green-950/40 dark:via-blue-950/20 dark:to-purple-950/40 p-4 py-12">
+      <Card className="w-full max-w-md shadow-2xl border-2 border-primary/10">
+        <CardHeader className="space-y-4 text-center pb-6">
           <div className="flex justify-center">
-            <img src={logo} alt="AfyaJamii Logo" className="h-24 w-24" />
+            <div className="relative">
+              <img src={logo} alt="AfyaJamii Logo" className="h-20 w-20" />
+            </div>
           </div>
           <div>
-            <CardTitle className="text-2xl">Create Account</CardTitle>
-            <CardDescription>Join AfyaJamii for personalized maternal health support</CardDescription>
+            <CardTitle className="text-3xl font-bold">Create Account</CardTitle>
+            <CardDescription className="text-base mt-2">Join AfyaJamii for personalized maternal health support</CardDescription>
           </div>
         </CardHeader>
-        <CardContent>
+        <CardContent className="pb-8">
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="username">Username</Label>
+              <Label htmlFor="username" className="text-sm font-medium">Username</Label>
               <Input
                 id="username"
                 type="text"
@@ -108,10 +110,11 @@ const Signup = () => {
                 onChange={(e) => setFormData({ ...formData, username: e.target.value })}
                 placeholder="Choose a username"
                 disabled={isLoading}
+                className="h-11"
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="email" className="text-sm font-medium">Email</Label>
               <Input
                 id="email"
                 type="email"
@@ -119,10 +122,11 @@ const Signup = () => {
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 placeholder="your@email.com"
                 disabled={isLoading}
+                className="h-11"
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="full_name">Full Name</Label>
+              <Label htmlFor="full_name" className="text-sm font-medium">Full Name</Label>
               <Input
                 id="full_name"
                 type="text"
@@ -130,27 +134,29 @@ const Signup = () => {
                 onChange={(e) => setFormData({ ...formData, full_name: e.target.value })}
                 placeholder="Enter your full name"
                 disabled={isLoading}
+                className="h-11"
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="account_type">Account Type</Label>
+              <Label htmlFor="account_type" className="text-sm font-medium">Account Type</Label>
               <Select
                 value={formData.account_type}
                 onValueChange={(value) => setFormData({ ...formData, account_type: value as any })}
                 disabled={isLoading}
               >
-                <SelectTrigger>
-                  <SelectValue placeholder="Select account type" />
+                <SelectTrigger className="h-11">
+                  <SelectValue placeholder="Select your account type" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="pregnant">Pregnant</SelectItem>
-                  <SelectItem value="postnatal">Postnatal</SelectItem>
-                  <SelectItem value="general">General</SelectItem>
+                  <SelectItem value="pregnant">🤰 Pregnant</SelectItem>
+                  <SelectItem value="postnatal">👶 Postnatal</SelectItem>
+                  <SelectItem value="general">💚 General Health</SelectItem>
                 </SelectContent>
               </Select>
+              <p className="text-xs text-muted-foreground">Choose the option that best describes your current situation</p>
             </div>
             <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
+              <Label htmlFor="password" className="text-sm font-medium">Password</Label>
               <Input
                 id="password"
                 type="password"
@@ -158,10 +164,11 @@ const Signup = () => {
                 onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                 placeholder="At least 8 characters"
                 disabled={isLoading}
+                className="h-11"
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="confirmPassword">Confirm Password</Label>
+              <Label htmlFor="confirmPassword" className="text-sm font-medium">Confirm Password</Label>
               <Input
                 id="confirmPassword"
                 type="password"
@@ -169,15 +176,16 @@ const Signup = () => {
                 onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
                 placeholder="Re-enter your password"
                 disabled={isLoading}
+                className="h-11"
               />
             </div>
-            <Button type="submit" className="w-full" disabled={isLoading}>
+            <Button type="submit" className="w-full h-11 text-base font-medium mt-6" disabled={isLoading}>
               {isLoading ? "Creating account..." : "Create Account"}
             </Button>
           </form>
-          <div className="mt-4 text-center text-sm">
+          <div className="mt-6 text-center text-sm">
             Already have an account?{' '}
-            <Link to="/login" className="text-primary hover:underline font-medium">
+            <Link to="/login" className="text-primary hover:underline font-semibold">
               Sign in
             </Link>
           </div>

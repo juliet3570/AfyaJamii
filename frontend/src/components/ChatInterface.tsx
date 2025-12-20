@@ -63,24 +63,42 @@ const ChatInterface = () => {
   };
 
   return (
-    <Card className="h-[600px] flex flex-col">
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <MessageCircle className="h-5 w-5 text-primary" />
-          Chat with Afya Jamii AI
+    <Card className="h-[700px] flex flex-col max-w-4xl mx-auto shadow-lg">
+      <CardHeader className="bg-gradient-to-r from-primary/5 to-purple-500/5 border-b">
+        <CardTitle className="flex items-center gap-2 text-2xl">
+          <div className="h-10 w-10 bg-primary/10 rounded-full flex items-center justify-center">
+            <MessageCircle className="h-5 w-5 text-primary" />
+          </div>
+          Chat with AfyaJamii AI
         </CardTitle>
-        <CardDescription>
-          Ask questions about maternal health and nutrition
+        <CardDescription className="text-base">
+          Get instant answers about maternal health, nutrition, and pregnancy care from our AI assistant
         </CardDescription>
       </CardHeader>
-      <CardContent className="flex-1 flex flex-col gap-4 overflow-hidden">
+      <CardContent className="flex-1 flex flex-col gap-4 overflow-hidden pt-6">
         <ScrollArea className="flex-1 pr-4" ref={scrollRef}>
           <div className="space-y-4">
             {messages.length === 0 ? (
-              <div className="text-center text-muted-foreground py-8">
-                <MessageCircle className="h-12 w-12 mx-auto mb-2 opacity-50" />
-                <p>Start a conversation with our AI assistant</p>
-                <p className="text-sm mt-1">Ask about nutrition, health concerns, or pregnancy care</p>
+              <div className="text-center text-muted-foreground py-12">
+                <div className="h-20 w-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <MessageCircle className="h-10 w-10 text-primary" />
+                </div>
+                <h3 className="text-lg font-semibold text-foreground mb-2">Start a Conversation</h3>
+                <p className="mb-4">Ask our AI assistant anything about:</p>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-3 max-w-2xl mx-auto text-sm">
+                  <div className="bg-blue-50 dark:bg-blue-950/20 p-3 rounded-lg">
+                    <p className="font-medium text-blue-700 dark:text-blue-300">🥗 Nutrition</p>
+                    <p className="text-xs text-muted-foreground mt-1">Diet and meal planning</p>
+                  </div>
+                  <div className="bg-green-50 dark:bg-green-950/20 p-3 rounded-lg">
+                    <p className="font-medium text-green-700 dark:text-green-300">💊 Health Concerns</p>
+                    <p className="text-xs text-muted-foreground mt-1">Symptoms and wellness</p>
+                  </div>
+                  <div className="bg-purple-50 dark:bg-purple-950/20 p-3 rounded-lg">
+                    <p className="font-medium text-purple-700 dark:text-purple-300">🤰 Pregnancy Care</p>
+                    <p className="text-xs text-muted-foreground mt-1">Tips and guidance</p>
+                  </div>
+                </div>
               </div>
             ) : (
               messages.map((message, index) => {
@@ -98,19 +116,20 @@ const ChatInterface = () => {
                 return (
                   <div
                     key={index}
-                    className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
+                    className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'} animate-in fade-in slide-in-from-bottom-2 duration-300`}
                   >
                     <div
-                      className={`max-w-[80%] rounded-lg p-3 ${
+                      className={`max-w-[85%] rounded-2xl p-4 shadow-sm ${
                         message.role === 'user'
                           ? 'bg-primary text-primary-foreground'
-                          : 'bg-secondary text-secondary-foreground'
+                          : 'bg-gradient-to-br from-secondary to-secondary/80 text-secondary-foreground border'
                       }`}
                     >
-                      <div className="whitespace-pre-wrap text-sm">
+                      <div className="whitespace-pre-wrap text-sm leading-relaxed">
                         {message.role === 'ai' ? formatText(message.content) : message.content}
                       </div>
-                      <div className="text-xs opacity-70 mt-1">
+                      <div className="text-xs opacity-70 mt-2 flex items-center gap-1">
+                        {message.role === 'ai' && '🤖 AI • '}
                         {new Date(message.timestamp).toLocaleTimeString()}
                       </div>
                     </div>
@@ -131,16 +150,24 @@ const ChatInterface = () => {
             )}
           </div>
         </ScrollArea>
-        <form onSubmit={handleSubmit} className="flex gap-2">
+        <form onSubmit={handleSubmit} className="flex gap-3 pt-2 border-t">
           <Input
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            placeholder="Type your question..."
+            placeholder="Ask me anything about your health..."
             disabled={isLoading}
-            className="flex-1"
+            className="flex-1 h-12 text-base"
           />
-          <Button type="submit" disabled={isLoading || !input.trim()}>
-            <Send className="h-4 w-4" />
+          <Button type="submit" disabled={isLoading || !input.trim()} size="lg" className="px-6">
+            {isLoading ? (
+              <div className="flex gap-1">
+                <div className="w-2 h-2 bg-current rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
+                <div className="w-2 h-2 bg-current rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
+                <div className="w-2 h-2 bg-current rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+              </div>
+            ) : (
+              <Send className="h-5 w-5" />
+            )}
           </Button>
         </form>
       </CardContent>

@@ -8,7 +8,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { useAuth } from '@/contexts/AuthContext';
 import { api, VitalsSubmitResponse } from '@/lib/api';
 import { useToast } from '@/hooks/use-toast';
-import { Thermometer } from 'lucide-react';
+import { Thermometer, User, Heart, Activity, TrendingUp, Loader2 } from 'lucide-react';
+import { Textarea } from '@/components/ui/textarea';
 
 interface VitalsFormProps {
   onSubmitSuccess: (data: VitalsSubmitResponse) => void;
@@ -89,19 +90,24 @@ const VitalsForm = ({ onSubmitSuccess }: VitalsFormProps) => {
   };
 
   return (
-    <Card className="max-w-2xl mx-auto">
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <Thermometer className="h-5 w-5" />
+    <Card className="max-w-3xl mx-auto shadow-lg">
+      <CardHeader className="bg-gradient-to-r from-primary/5 to-purple-500/5 border-b">
+        <CardTitle className="flex items-center gap-2 text-2xl">
+          <div className="h-10 w-10 bg-primary/10 rounded-full flex items-center justify-center">
+            <Thermometer className="h-5 w-5 text-primary" />
+          </div>
           Submit Your Vitals
         </CardTitle>
-        <CardDescription>Enter your current vital signs for AI-powered risk assessment</CardDescription>
+        <CardDescription className="text-base">Enter your current vital signs for AI-powered risk assessment and personalized health insights</CardDescription>
       </CardHeader>
-      <CardContent>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <CardContent className="pt-6">
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-2">
-              <Label htmlFor="age">Age (years)</Label>
+              <Label htmlFor="age" className="text-sm font-medium flex items-center gap-2">
+                <User className="h-4 w-4 text-muted-foreground" />
+                Age (years)
+              </Label>
               <Input
                 id="age"
                 type="number"
@@ -109,11 +115,16 @@ const VitalsForm = ({ onSubmitSuccess }: VitalsFormProps) => {
                 onChange={(e) => setVitals({ ...vitals, age: e.target.value })}
                 placeholder="e.g., 28"
                 required
+                className="h-11"
               />
+              <p className="text-xs text-muted-foreground">Your current age</p>
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="heart_rate">Heart Rate (bpm)</Label>
+              <Label htmlFor="heart_rate" className="text-sm font-medium flex items-center gap-2">
+                <Heart className="h-4 w-4 text-muted-foreground" />
+                Heart Rate (bpm)
+              </Label>
               <Input
                 id="heart_rate"
                 type="number"
@@ -121,11 +132,16 @@ const VitalsForm = ({ onSubmitSuccess }: VitalsFormProps) => {
                 onChange={(e) => setVitals({ ...vitals, heart_rate: e.target.value })}
                 placeholder="e.g., 75"
                 required
+                className="h-11"
               />
+              <p className="text-xs text-muted-foreground">Normal range: 60-100 bpm</p>
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="systolic_bp">Systolic BP (mmHg)</Label>
+              <Label htmlFor="systolic_bp" className="text-sm font-medium flex items-center gap-2">
+                <Activity className="h-4 w-4 text-muted-foreground" />
+                Systolic BP (mmHg)
+              </Label>
               <Input
                 id="systolic_bp"
                 type="number"
@@ -133,11 +149,16 @@ const VitalsForm = ({ onSubmitSuccess }: VitalsFormProps) => {
                 onChange={(e) => setVitals({ ...vitals, systolic_bp: e.target.value })}
                 placeholder="e.g., 120"
                 required
+                className="h-11"
               />
+              <p className="text-xs text-muted-foreground">Upper blood pressure reading</p>
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="diastolic_bp">Diastolic BP (mmHg)</Label>
+              <Label htmlFor="diastolic_bp" className="text-sm font-medium flex items-center gap-2">
+                <Activity className="h-4 w-4 text-muted-foreground" />
+                Diastolic BP (mmHg)
+              </Label>
               <Input
                 id="diastolic_bp"
                 type="number"
@@ -145,11 +166,16 @@ const VitalsForm = ({ onSubmitSuccess }: VitalsFormProps) => {
                 onChange={(e) => setVitals({ ...vitals, diastolic_bp: e.target.value })}
                 placeholder="e.g., 80"
                 required
+                className="h-11"
               />
+              <p className="text-xs text-muted-foreground">Lower blood pressure reading</p>
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="bs">Blood Sugar (mmol/L)</Label>
+              <Label htmlFor="bs" className="text-sm font-medium flex items-center gap-2">
+                <TrendingUp className="h-4 w-4 text-muted-foreground" />
+                Blood Sugar (mmol/L)
+              </Label>
               <Input
                 id="bs"
                 type="number"
@@ -158,11 +184,16 @@ const VitalsForm = ({ onSubmitSuccess }: VitalsFormProps) => {
                 onChange={(e) => setVitals({ ...vitals, bs: e.target.value })}
                 placeholder="e.g., 5.5"
                 required
+                className="h-11"
               />
+              <p className="text-xs text-muted-foreground">Normal range: 4.0-7.0 mmol/L</p>
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="body_temp">Body Temperature</Label>
+              <Label htmlFor="body_temp" className="text-sm font-medium flex items-center gap-2">
+                <Thermometer className="h-4 w-4 text-muted-foreground" />
+                Body Temperature
+              </Label>
               <div className="flex gap-2">
                 <Input
                   id="body_temp"
@@ -172,7 +203,7 @@ const VitalsForm = ({ onSubmitSuccess }: VitalsFormProps) => {
                   onChange={(e) => setVitals({ ...vitals, body_temp: e.target.value })}
                   placeholder="e.g., 37.0"
                   required
-                  className="flex-1"
+                  className="flex-1 h-11"
                 />
                 <Select 
                   value={vitals.body_temp_unit} 
@@ -180,7 +211,7 @@ const VitalsForm = ({ onSubmitSuccess }: VitalsFormProps) => {
                     setVitals({ ...vitals, body_temp_unit: value })
                   }
                 >
-                  <SelectTrigger className="w-28">
+                  <SelectTrigger className="w-28 h-11">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -189,22 +220,22 @@ const VitalsForm = ({ onSubmitSuccess }: VitalsFormProps) => {
                   </SelectContent>
                 </Select>
               </div>
+              <p className="text-xs text-muted-foreground">Normal: 36.5-37.5°C / 97.7-99.5°F</p>
             </div>
           </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="patient_history">Patient History (Optional)</Label>
-            <Textarea
-              id="patient_history"
-              value={vitals.patient_history}
-              onChange={(e) => setVitals({ ...vitals, patient_history: e.target.value })}
-              placeholder="Any relevant medical history or current symptoms..."
-              rows={3}
-            />
-          </div>
-
-          <Button type="submit" className="w-full" disabled={isLoading}>
-            {isLoading ? 'Processing...' : 'Submit Vitals'}
+          <Button type="submit" className="w-full h-12 text-base font-medium" disabled={isLoading}>
+            {isLoading ? (
+              <>
+                <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                Analyzing Your Vitals...
+              </>
+            ) : (
+              <>
+                <Activity className="mr-2 h-5 w-5" />
+                Submit Vitals & Get AI Analysis
+              </>
+            )}
           </Button>
         </form>
       </CardContent>
